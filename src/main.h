@@ -2,5 +2,5 @@
 
 #include <Windows.h>
 
-static WCHAR szWindowClass[] = L"Win32WebViewSample01";
-static WCHAR szTitle[] = L"WebView sample01";
+static WCHAR szWindowClass[] = L"WindowsMusicLyricsClass";
+static WCHAR szTitle[] = L"Windows Music Lyrics";

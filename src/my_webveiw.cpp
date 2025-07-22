@@ -2,6 +2,12 @@
 #include "my_webview.h"
 #include <filesystem>
 #include <windows.h>
+#include <wrl.h>
+#include <wil/com.h>
+#include <wrl/client.h>
+#include <WebView2EnvironmentOptions.h>
+
+using namespace Microsoft::WRL;
 
 std::wstring ReadHtmlFile(const std::wstring &filePath)
 {
@@ -95,11 +101,14 @@ HRESULT OnControllerCreated(            //
     GetClientRect(hWnd, &bounds);
     webviewController->put_Bounds(bounds);
 
+    std::wstring htmlPath =
+        std::filesystem::current_path().wstring() + L"/html/index.html";
+    std::wstring fileUri = L"file:///" + htmlPath;
     // Navigate to HTML
-    HRESULT hr = webview->NavigateToString(HTMLString.c_str());
+    HRESULT hr = webview->Navigate(fileUri.c_str());
     if (FAILED(hr))
     {
-        ShowErrorMessage(hWnd, L"Failed to navigate to string.");
+        ShowErrorMessage(hWnd, L"Failed to navigate to index.html.");
     }
 
     // webview->OpenDevToolsWindow();
@@ -132,10 +141,15 @@ HRESULT OnEnvironmentCreated(HWND hWnd, HRESULT result,
 // Initialize WebView2
 void InitWebview(HWND hWnd)
 {
+    // Create environment options
+    Microsoft::WRL::ComPtr<ICoreWebView2EnvironmentOptions> options;
+    Microsoft::WRL::MakeAndInitialize<CoreWebView2EnvironmentOptions>(&options);
+    options->put_AdditionalBrowserArguments(L"--allow-file-access-from-files");
+
     CreateCoreWebView2EnvironmentWithOptions(                                 //
         nullptr,                                                              //
         nullptr,                                                              //
-        nullptr,                                                              //
+        options.Get(),                                                        //
         Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>( //
             [hWnd](HRESULT result,                                            //
                    ICoreWebView2Environment *env) -> HRESULT {                //

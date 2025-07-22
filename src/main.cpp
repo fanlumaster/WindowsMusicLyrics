@@ -80,18 +80,19 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hPrevInstance,
         return 1;
     }
 
-    HWND hWnd = CreateWindowEx(0,                             //
-                               szWindowClass,                 //
-                               L"Win32WebViewTemplateWindow", //
-                               WS_OVERLAPPEDWINDOW,           //
-                               100,                           //
-                               100,                           //
-                               (108 + 15) * 1.5 * 4,          //
-                               (246 + 15) * 1.5 * 2,          //
-                               nullptr,                       //
-                               nullptr,                       //
-                               hInstance,                     //
-                               nullptr);                      //
+    HWND hWnd = CreateWindowEx( //
+        0,                      //
+        szWindowClass,          //
+        szTitle,                //
+        WS_OVERLAPPEDWINDOW,    //
+        100,                    //
+        100,                    //
+        (108 + 15) * 1.5 * 4,   //
+        (246 + 15) * 1.5 * 2,   //
+        nullptr,                //
+        nullptr,                //
+        hInstance,              //
+        nullptr);               //
 
     if (!hWnd)
     {
