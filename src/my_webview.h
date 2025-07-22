@@ -1,8 +1,7 @@
 #pragma once
 
 #include "WebView2.h"
-#include "fmt/core.h"
-#include "fmt/xchar.h"
+#include <fmt/xchar.h>
 #include <boost/locale.hpp>
 #include <fstream>
 #include <sstream>
